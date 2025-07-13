@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vulnerable Training Site - Security Testing Lab</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>🔓 Vulnerable Training Site</h1>
+        <p class="warning">⚠️ FOR EDUCATIONAL PURPOSES ONLY - Contains Intentional Security Vulnerabilities</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#login">Login</a></li>
+            <li><a href="#search">Search</a></li>
+            <li><a href="#comments">Comments</a></li>
+            <li><a href="#admin">Admin Panel</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <!-- Vulnerable Login Form (SQL Injection) -->
+        <section id="login" class="vulnerability-section">
+            <h2>Login Form (SQL Injection Vulnerable)</h2>
+            <div class="vuln-info">
+                <p><strong>Vulnerability:</strong> SQL Injection</p>
+                <p><strong>Try:</strong> admin' OR '1'='1' -- as username</p>
+            </div>
+            <form action="#" method="post" class="login-form">
+                <div class="form-group">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username" placeholder="Enter username">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" placeholder="Enter password">
+                </div>
+                <button type="submit">Login</button>
+            </form>
+            <div id="login-result"></div>
+        </section>
+
+        <!-- Vulnerable Search Form (SQL Injection) -->
+        <section id="search" class="vulnerability-section">
+            <h2>Product Search (SQL Injection Vulnerable)</h2>
+            <div class="vuln-info">
+                <p><strong>Vulnerability:</strong> SQL Injection in Search</p>
+                <p><strong>Try:</strong> ' UNION SELECT username, password FROM users --</p>
+            </div>
+            <form action="#" method="get" class="search-form">
+                <div class="form-group">
+                    <label for="search-term">Search Products:</label>
+                    <input type="text" id="search-term" name="q" placeholder="Enter search term">
+                </div>
+                <button type="submit">Search</button>
+            </form>
+            <div id="search-results"></div>
+        </section>
+
+        <!-- XSS Vulnerable Comment Form -->
+        <section id="comments" class="vulnerability-section">
+            <h2>Comment System (XSS Vulnerable)</h2>
+            <div class="vuln-info">
+                <p><strong>Vulnerability:</strong> Stored/Reflected XSS</p>
+                <p><strong>Try:</strong> &lt;script&gt;alert('XSS')&lt;/script&gt;</p>
+            </div>
+            <form action="#" method="post" class="comment-form">
+                <div class="form-group">
+                    <label for="comment-name">Name:</label>
+                    <input type="text" id="comment-name" name="name" placeholder="Your name">
+                </div>
+                <div class="form-group">
+                    <label for="comment-text">Comment:</label>
+                    <textarea id="comment-text" name="comment" rows="4" placeholder="Enter your comment"></textarea>
+                </div>
+                <button type="submit">Post Comment</button>
+            </form>
+            <div id="comments-display">
+                <h3>Previous Comments:</h3>
+                <div class="comment">
+                    <strong>Test User:</strong> This is a sample comment.
+                </div>
+            </div>
+        </section>
+
+        <!-- CSRF Vulnerable Admin Panel -->
+        <section id="admin" class="vulnerability-section">
+            <h2>Admin Panel (CSRF Vulnerable)</h2>
+            <div class="vuln-info">
+                <p><strong>Vulnerability:</strong> Cross-Site Request Forgery</p>
+                <p><strong>Try:</strong> Create malicious form on external site</p>
+            </div>
+            <form action="#" method="post" class="admin-form">
+                <div class="form-group">
+                    <label for="admin-action">Admin Action:</label>
+                    <select id="admin-action" name="action">
+                        <option value="delete_user">Delete User</option>
+                        <option value="change_password">Change Password</option>
+                        <option value="grant_admin">Grant Admin Rights</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="target-user">Target User:</label>
+                    <input type="text" id="target-user" name="target" placeholder="Username">
+                </div>
+                <button type="submit">Execute Action</button>
+            </form>
+            <div id="admin-result"></div>
+        </section>
+
+        <!-- Additional Vulnerabilities -->
+        <section id="file-upload" class="vulnerability-section">
+            <h2>File Upload (Unrestricted)</h2>
+            <div class="vuln-info">
+                <p><strong>Vulnerability:</strong> Unrestricted File Upload</p>
+                <p><strong>Try:</strong> Upload PHP/JSP shell files</p>
+            </div>
+            <form action="#" method="post" enctype="multipart/form-data" class="upload-form">
+                <div class="form-group">
+                    <label for="file-upload">Choose File:</label>
+                    <input type="file" id="file-upload" name="file">
+                </div>
+                <button type="submit">Upload File</button>
+            </form>
+            <div id="upload-result"></div>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2024 Vulnerable Training Site - Educational Use Only</p>
+        <p>This site contains intentional security vulnerabilities for training purposes.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
