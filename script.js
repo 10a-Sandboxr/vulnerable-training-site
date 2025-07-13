@@ -4,6 +4,76 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Simulate vulnerable backend responses
     
+    // Weak Authentication Login Form
+    const weakLoginForm = document.querySelector('.weak-login-form');
+    const weakLoginResult = document.getElementById('weak-login-result');
+    
+    if (weakLoginForm) {
+        weakLoginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('corp-username').value;
+            const password = document.getElementById('corp-password').value;
+            
+            // Common weak passwords database
+            const commonPasswords = ['password', 'admin', '123456', 'password123', 'admin123', 'qwerty', 'letmein', 'welcome', 'monkey', 'dragon'];
+            const defaultAccounts = {
+                'admin': ['admin', 'password', 'admin123'],
+                'administrator': ['admin', 'password', 'administrator'],
+                'root': ['root', 'toor', 'password'],
+                'user': ['user', 'password', '123456'],
+                'guest': ['guest', 'password'],
+                'test': ['test', 'password', '123456']
+            };
+            
+            weakLoginResult.innerHTML = `
+                <div class="demo-data">
+                    <strong>Authentication Attempt:</strong><br>
+                    Username: ${username}<br>
+                    Password: ${password ? '[HIDDEN]' : '[EMPTY]'}
+                </div>
+            `;
+            
+            let loginSuccess = false;
+            let vulnerabilityType = '';
+            
+            // Check for default accounts
+            if (defaultAccounts[username.toLowerCase()] && defaultAccounts[username.toLowerCase()].includes(password)) {
+                loginSuccess = true;
+                vulnerabilityType = 'Default Credentials';
+            }
+            // Check for common passwords
+            else if (commonPasswords.includes(password.toLowerCase())) {
+                loginSuccess = true;
+                vulnerabilityType = 'Common Password';
+            }
+            // Check for username as password
+            else if (username.toLowerCase() === password.toLowerCase()) {
+                loginSuccess = true;
+                vulnerabilityType = 'Username as Password';
+            }
+            
+            if (loginSuccess) {
+                weakLoginResult.innerHTML += `
+                    <div class="success">
+                        <strong>🚨 Weak Authentication Bypassed!</strong><br>
+                        Vulnerability: ${vulnerabilityType}<br>
+                        Access granted to corporate system!<br>
+                        <em>In a real application, this would compromise the entire corporate network.</em>
+                    </div>
+                `;
+            } else {
+                weakLoginResult.innerHTML += `
+                    <div class="error">
+                        <strong>❌ Access Denied</strong><br>
+                        Invalid credentials. Try common passwords or default accounts.
+                    </div>
+                `;
+            }
+            
+            weakLoginResult.style.display = 'block';
+        });
+    }
+
     // SQL Injection Login Form
     const loginForm = document.querySelector('.login-form');
     const loginResult = document.getElementById('login-result');
@@ -232,8 +302,9 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log("🚨 VULNERABLE TRAINING SITE LOADED 🚨");
     console.log("This site contains intentional security vulnerabilities:");
     console.log("1. SQL Injection in login and search forms");
-    console.log("2. Cross-Site Scripting (XSS) in comments");
-    console.log("3. Cross-Site Request Forgery (CSRF) in admin panel");
-    console.log("4. Unrestricted file upload");
+    console.log("2. Weak authentication with common passwords");
+    console.log("3. Cross-Site Scripting (XSS) in comments");
+    console.log("4. Cross-Site Request Forgery (CSRF) in admin panel");
+    console.log("5. Unrestricted file upload");
     console.log("Use responsibly for educational purposes only!");
 });

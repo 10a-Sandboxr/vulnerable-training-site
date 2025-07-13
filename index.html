@@ -15,6 +15,7 @@
     <nav>
         <ul>
             <li><a href="#login">Login</a></li>
+            <li><a href="#weak-login">Weak Auth</a></li>
             <li><a href="#search">Search</a></li>
             <li><a href="#comments">Comments</a></li>
             <li><a href="#admin">Admin Panel</a></li>
@@ -23,11 +24,11 @@
 
     <main>
         <!-- Vulnerable Login Form (SQL Injection) -->
+        <!-- Hint: Try username: admin' OR '1'='1' -- -->
         <section id="login" class="vulnerability-section">
             <h2>Login Form (SQL Injection Vulnerable)</h2>
             <div class="vuln-info">
                 <p><strong>Vulnerability:</strong> SQL Injection</p>
-                <p><strong>Try:</strong> admin' OR '1'='1' -- as username</p>
             </div>
             <form action="#" method="post" class="login-form">
                 <div class="form-group">
@@ -43,12 +44,33 @@
             <div id="login-result"></div>
         </section>
 
+        <!-- Weak Authentication Login Form -->
+        <!-- Hint: Try common passwords like admin, password, 123456 -->
+        <section id="weak-login" class="vulnerability-section">
+            <h2>Corporate Login (Weak Authentication)</h2>
+            <div class="vuln-info">
+                <p><strong>Vulnerability:</strong> Weak Password Policy</p>
+            </div>
+            <form action="#" method="post" class="weak-login-form">
+                <div class="form-group">
+                    <label for="corp-username">Corporate Username:</label>
+                    <input type="text" id="corp-username" name="username" placeholder="Enter corporate username">
+                </div>
+                <div class="form-group">
+                    <label for="corp-password">Corporate Password:</label>
+                    <input type="password" id="corp-password" name="password" placeholder="Enter corporate password">
+                </div>
+                <button type="submit">Access System</button>
+            </form>
+            <div id="weak-login-result"></div>
+        </section>
+
         <!-- Vulnerable Search Form (SQL Injection) -->
+        <!-- Hint: Try search term: ' UNION SELECT username, password FROM users -- -->
         <section id="search" class="vulnerability-section">
             <h2>Product Search (SQL Injection Vulnerable)</h2>
             <div class="vuln-info">
                 <p><strong>Vulnerability:</strong> SQL Injection in Search</p>
-                <p><strong>Try:</strong> ' UNION SELECT username, password FROM users --</p>
             </div>
             <form action="#" method="get" class="search-form">
                 <div class="form-group">
@@ -61,11 +83,11 @@
         </section>
 
         <!-- XSS Vulnerable Comment Form -->
+        <!-- Hint: Try comment: <script>alert('XSS')</script> -->
         <section id="comments" class="vulnerability-section">
             <h2>Comment System (XSS Vulnerable)</h2>
             <div class="vuln-info">
                 <p><strong>Vulnerability:</strong> Stored/Reflected XSS</p>
-                <p><strong>Try:</strong> &lt;script&gt;alert('XSS')&lt;/script&gt;</p>
             </div>
             <form action="#" method="post" class="comment-form">
                 <div class="form-group">
@@ -87,11 +109,11 @@
         </section>
 
         <!-- CSRF Vulnerable Admin Panel -->
+        <!-- Hint: Create malicious form on external site that posts to this endpoint -->
         <section id="admin" class="vulnerability-section">
             <h2>Admin Panel (CSRF Vulnerable)</h2>
             <div class="vuln-info">
                 <p><strong>Vulnerability:</strong> Cross-Site Request Forgery</p>
-                <p><strong>Try:</strong> Create malicious form on external site</p>
             </div>
             <form action="#" method="post" class="admin-form">
                 <div class="form-group">
@@ -112,11 +134,11 @@
         </section>
 
         <!-- Additional Vulnerabilities -->
+        <!-- Hint: Try uploading files with extensions like .php, .jsp, .sh -->
         <section id="file-upload" class="vulnerability-section">
             <h2>File Upload (Unrestricted)</h2>
             <div class="vuln-info">
                 <p><strong>Vulnerability:</strong> Unrestricted File Upload</p>
-                <p><strong>Try:</strong> Upload PHP/JSP shell files</p>
             </div>
             <form action="#" method="post" enctype="multipart/form-data" class="upload-form">
                 <div class="form-group">
