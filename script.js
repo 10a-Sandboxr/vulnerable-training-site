@@ -14,6 +14,12 @@ document.addEventListener('DOMContentLoaded', function() {
             const username = document.getElementById('corp-username').value;
             const password = document.getElementById('corp-password').value;
             
+            // Show hint after first attempt
+            const weakLoginHint = document.getElementById('weak-login-hint');
+            if (weakLoginHint) {
+                weakLoginHint.style.display = 'block';
+            }
+            
             // Valid credentials for Bond007
             const validPassword = 'bondjamesbond';
             
@@ -95,6 +101,12 @@ document.addEventListener('DOMContentLoaded', function() {
         const username = document.getElementById('username').value;
         const password = document.getElementById('password').value;
         
+        // Show hint after first attempt
+        const loginHint = document.getElementById('login-hint');
+        if (loginHint) {
+            loginHint.style.display = 'block';
+        }
+        
         // Vulnerable SQL query simulation
         const sqlQuery = `SELECT * FROM users WHERE username = '${username}' AND password = '${password}'`;
         
@@ -140,6 +152,12 @@ document.addEventListener('DOMContentLoaded', function() {
     searchForm.addEventListener('submit', function(e) {
         e.preventDefault();
         const searchTerm = document.getElementById('search-term').value;
+        
+        // Show hint after first attempt
+        const searchHint = document.getElementById('search-hint');
+        if (searchHint) {
+            searchHint.style.display = 'block';
+        }
         
         // Vulnerable SQL query simulation
         const sqlQuery = `SELECT * FROM products WHERE name LIKE '%${searchTerm}%'`;
@@ -188,6 +206,12 @@ document.addEventListener('DOMContentLoaded', function() {
         const name = document.getElementById('comment-name').value;
         const comment = document.getElementById('comment-text').value;
         
+        // Show hint after first attempt
+        const commentHint = document.getElementById('comment-hint');
+        if (commentHint) {
+            commentHint.style.display = 'block';
+        }
+        
         // Intentionally vulnerable - directly inserting user input
         const newComment = document.createElement('div');
         newComment.className = 'comment';
@@ -223,6 +247,12 @@ document.addEventListener('DOMContentLoaded', function() {
         const action = document.getElementById('admin-action').value;
         const target = document.getElementById('target-user').value;
         
+        // Show hint after first attempt
+        const adminHint = document.getElementById('admin-hint');
+        if (adminHint) {
+            adminHint.style.display = 'block';
+        }
+        
         // No CSRF token validation (vulnerability)
         adminResult.innerHTML = `
             <div class="demo-data">
@@ -250,6 +280,12 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
             const fileInput = document.getElementById('file-upload');
             const file = fileInput.files[0];
+            
+            // Show hint after first attempt
+            const uploadHint = document.getElementById('upload-hint');
+            if (uploadHint) {
+                uploadHint.style.display = 'block';
+            }
             
             if (file) {
                 const fileName = file.name;

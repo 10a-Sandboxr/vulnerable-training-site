@@ -31,6 +31,9 @@
             <div class="vuln-info">
                 <p><strong>Vulnerability:</strong> SQL Injection</p>
             </div>
+            <div id="login-hint" class="hint-box" style="display: none;">
+                <p><strong>💡 Hint:</strong> Try username: admin' OR '1'='1' --</p>
+            </div>
             <form action="#" method="post" class="login-form">
                 <div class="form-group">
                     <label for="username">Username:</label>
@@ -51,6 +54,9 @@
             <h2>Corporate Login (Weak Authentication)</h2>
             <div class="vuln-info">
                 <p><strong>Vulnerability:</strong> Weak Password Policy</p>
+            </div>
+            <div id="weak-login-hint" class="hint-box" style="display: none;">
+                <p><strong>💡 Hint:</strong> Think about common passwords like admin, password, 123456, or try variations of the username</p>
             </div>
             <form action="#" method="post" class="weak-login-form">
                 <div class="form-group">
@@ -73,6 +79,9 @@
             <div class="vuln-info">
                 <p><strong>Vulnerability:</strong> SQL Injection in Search</p>
             </div>
+            <div id="search-hint" class="hint-box" style="display: none;">
+                <p><strong>💡 Hint:</strong> Try search term: ' UNION SELECT username, password FROM users --</p>
+            </div>
             <form action="#" method="get" class="search-form">
                 <div class="form-group">
                     <label for="search-term">Search Products:</label>
@@ -89,6 +98,9 @@
             <h2>Comment System (XSS Vulnerable)</h2>
             <div class="vuln-info">
                 <p><strong>Vulnerability:</strong> Stored/Reflected XSS</p>
+            </div>
+            <div id="comment-hint" class="hint-box" style="display: none;">
+                <p><strong>💡 Hint:</strong> Try comment: &lt;script&gt;alert('XSS')&lt;/script&gt;</p>
             </div>
             <form action="#" method="post" class="comment-form">
                 <div class="form-group">
@@ -115,6 +127,9 @@
             <h2>Admin Panel (CSRF Vulnerable)</h2>
             <div class="vuln-info">
                 <p><strong>Vulnerability:</strong> Cross-Site Request Forgery</p>
+            </div>
+            <div id="admin-hint" class="hint-box" style="display: none;">
+                <p><strong>💡 Hint:</strong> Create malicious form on external site that posts to this endpoint</p>
             </div>
             <form action="#" method="post" class="admin-form">
                 <div class="form-group">
@@ -154,6 +169,9 @@
             <h2>File Upload (Unrestricted)</h2>
             <div class="vuln-info">
                 <p><strong>Vulnerability:</strong> Unrestricted File Upload</p>
+            </div>
+            <div id="upload-hint" class="hint-box" style="display: none;">
+                <p><strong>💡 Hint:</strong> Try uploading files with extensions like .php, .jsp, .sh</p>
             </div>
             <form action="#" method="post" enctype="multipart/form-data" class="upload-form">
                 <div class="form-group">
