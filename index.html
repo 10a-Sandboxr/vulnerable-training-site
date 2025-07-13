@@ -19,6 +19,7 @@
             <li><a href="#search">Search</a></li>
             <li><a href="#comments">Comments</a></li>
             <li><a href="#admin">Admin Panel</a></li>
+            <li><a href="#log-viewer">Logs</a></li>
         </ul>
     </nav>
 
@@ -54,7 +55,7 @@
             <form action="#" method="post" class="weak-login-form">
                 <div class="form-group">
                     <label for="corp-username">Corporate Username:</label>
-                    <input type="text" id="corp-username" name="username" placeholder="Enter corporate username">
+                    <input type="text" id="corp-username" name="username" value="Bond007" readonly>
                 </div>
                 <div class="form-group">
                     <label for="corp-password">Corporate Password:</label>
@@ -131,6 +132,20 @@
                 <button type="submit">Execute Action</button>
             </form>
             <div id="admin-result"></div>
+        </section>
+
+        <!-- Login Attempts Log Viewer -->
+        <section id="log-viewer" class="vulnerability-section">
+            <h2>Login Attempts Log (Admin Only)</h2>
+            <div class="vuln-info">
+                <p><strong>Feature:</strong> View all login attempts for security monitoring</p>
+            </div>
+            <button id="view-logs-btn">View Login Attempts</button>
+            <button id="clear-logs-btn">Clear Logs</button>
+            <div id="logs-display" style="display: none;">
+                <h3>Recorded Login Attempts:</h3>
+                <div id="logs-content"></div>
+            </div>
         </section>
 
         <!-- Additional Vulnerabilities -->

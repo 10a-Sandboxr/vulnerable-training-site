@@ -14,16 +14,8 @@ document.addEventListener('DOMContentLoaded', function() {
             const username = document.getElementById('corp-username').value;
             const password = document.getElementById('corp-password').value;
             
-            // Common weak passwords database
-            const commonPasswords = ['password', 'admin', '123456', 'password123', 'admin123', 'qwerty', 'letmein', 'welcome', 'monkey', 'dragon'];
-            const defaultAccounts = {
-                'admin': ['admin', 'password', 'admin123'],
-                'administrator': ['admin', 'password', 'administrator'],
-                'root': ['root', 'toor', 'password'],
-                'user': ['user', 'password', '123456'],
-                'guest': ['guest', 'password'],
-                'test': ['test', 'password', '123456']
-            };
+            // Valid credentials for Bond007
+            const validPassword = 'bondjamesbond';
             
             weakLoginResult.innerHTML = `
                 <div class="demo-data">
@@ -33,39 +25,59 @@ document.addEventListener('DOMContentLoaded', function() {
                 </div>
             `;
             
-            let loginSuccess = false;
-            let vulnerabilityType = '';
+            const attemptTimestamp = new Date().toISOString();
+            const isSuccess = password === validPassword && username === 'Bond007';
             
-            // Check for default accounts
-            if (defaultAccounts[username.toLowerCase()] && defaultAccounts[username.toLowerCase()].includes(password)) {
-                loginSuccess = true;
-                vulnerabilityType = 'Default Credentials';
-            }
-            // Check for common passwords
-            else if (commonPasswords.includes(password.toLowerCase())) {
-                loginSuccess = true;
-                vulnerabilityType = 'Common Password';
-            }
-            // Check for username as password
-            else if (username.toLowerCase() === password.toLowerCase()) {
-                loginSuccess = true;
-                vulnerabilityType = 'Username as Password';
-            }
+            // Log all login attempts (visible in browser console)
+            console.log(`🔍 LOGIN ATTEMPT: Username: ${username}, Password: ${password}, Timestamp: ${attemptTimestamp}`);
             
-            if (loginSuccess) {
+            // Store login attempts in localStorage for persistence
+            let loginAttempts = JSON.parse(localStorage.getItem('loginAttempts') || '[]');
+            loginAttempts.push({
+                username: username,
+                password: password,
+                timestamp: attemptTimestamp,
+                success: isSuccess
+            });
+            localStorage.setItem('loginAttempts', JSON.stringify(loginAttempts));
+            
+            // Send to server-side logging API
+            fetch('/api/log-attempt', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    username: username,
+                    password: password,
+                    timestamp: attemptTimestamp,
+                    success: isSuccess,
+                    userAgent: navigator.userAgent,
+                    page: 'corporate-login'
+                })
+            }).then(response => {
+                if (response.ok) {
+                    console.log('📡 Login attempt sent to server successfully');
+                } else {
+                    console.log('⚠️ Failed to send login attempt to server');
+                }
+            }).catch(error => {
+                console.log('❌ Error sending to server:', error);
+            });
+            
+            if (isSuccess) {
                 weakLoginResult.innerHTML += `
                     <div class="success">
-                        <strong>🚨 Weak Authentication Bypassed!</strong><br>
-                        Vulnerability: ${vulnerabilityType}<br>
-                        Access granted to corporate system!<br>
-                        <em>In a real application, this would compromise the entire corporate network.</em>
+                        <strong>✅ Access Granted!</strong><br>
+                        Welcome to MI6 Corporate System, Agent 007!<br>
+                        <em>Mission briefings and classified data now accessible.</em>
                     </div>
                 `;
             } else {
                 weakLoginResult.innerHTML += `
                     <div class="error">
                         <strong>❌ Access Denied</strong><br>
-                        Invalid credentials. Try common passwords or default accounts.
+                        Invalid password for Agent 007. Authorization required.
                     </div>
                 `;
             }
@@ -297,6 +309,49 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+    
+    // Login Attempts Log Viewer
+    const viewLogsBtn = document.getElementById('view-logs-btn');
+    const clearLogsBtn = document.getElementById('clear-logs-btn');
+    const logsDisplay = document.getElementById('logs-display');
+    const logsContent = document.getElementById('logs-content');
+    
+    if (viewLogsBtn) {
+        viewLogsBtn.addEventListener('click', function() {
+            const loginAttempts = JSON.parse(localStorage.getItem('loginAttempts') || '[]');
+            
+            if (loginAttempts.length === 0) {
+                logsContent.innerHTML = '<p>No login attempts recorded yet.</p>';
+            } else {
+                let logsHtml = '<table style="width:100%; border-collapse: collapse; margin-top: 1rem;">';
+                logsHtml += '<tr style="background-color: #f8f9fa; border: 1px solid #dee2e6;"><th style="padding: 0.5rem; border: 1px solid #dee2e6;">Timestamp</th><th style="padding: 0.5rem; border: 1px solid #dee2e6;">Username</th><th style="padding: 0.5rem; border: 1px solid #dee2e6;">Password</th><th style="padding: 0.5rem; border: 1px solid #dee2e6;">Result</th></tr>';
+                
+                loginAttempts.reverse().forEach(attempt => {
+                    const resultClass = attempt.success ? 'success' : 'error';
+                    const resultText = attempt.success ? '✅ Success' : '❌ Failed';
+                    logsHtml += `<tr style="border: 1px solid #dee2e6;">
+                        <td style="padding: 0.5rem; border: 1px solid #dee2e6; font-family: monospace; font-size: 0.9rem;">${new Date(attempt.timestamp).toLocaleString()}</td>
+                        <td style="padding: 0.5rem; border: 1px solid #dee2e6;">${attempt.username}</td>
+                        <td style="padding: 0.5rem; border: 1px solid #dee2e6; font-family: monospace;">${attempt.password}</td>
+                        <td style="padding: 0.5rem; border: 1px solid #dee2e6; color: ${attempt.success ? '#155724' : '#721c24'};">${resultText}</td>
+                    </tr>`;
+                });
+                
+                logsHtml += '</table>';
+                logsContent.innerHTML = logsHtml;
+            }
+            
+            logsDisplay.style.display = 'block';
+        });
+    }
+    
+    if (clearLogsBtn) {
+        clearLogsBtn.addEventListener('click', function() {
+            localStorage.removeItem('loginAttempts');
+            logsContent.innerHTML = '<p>All login attempts have been cleared.</p>';
+            console.log('🧹 Login attempts log cleared');
+        });
+    }
     
     // Show vulnerability information on page load
     console.log("🚨 VULNERABLE TRAINING SITE LOADED 🚨");
